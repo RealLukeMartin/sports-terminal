@@ -3,6 +3,7 @@ package tui
 import (
 	"github.com/RealLukeMartin/sports-terminal/internal/data"
 	"github.com/RealLukeMartin/sports-terminal/internal/menus"
+	"github.com/RealLukeMartin/sports-terminal/internal/styles"
 	tea "github.com/charmbracelet/bubbletea"
 )
 
@@ -94,7 +95,7 @@ func (m tuiModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			leagueTeamsModel, ok := newLeagueTeamsMenu.(menus.LeagueTeamsModel)
 
 			if !ok {
-				panic("could not perform assertion on MlbModel")
+				panic("could not perform assertion on LeagueTeamsModel")
 			}
 
 			// Update the leagueTeams model in state
@@ -114,9 +115,9 @@ func (m tuiModel) View() string {
 
 	switch m.currentPage {
 	case leaguesMenu: // Leagues
-		return m.leagues.View()
+		return styles.DefaultStyle.Render(m.leagues.View())
 	case leagueTeamsMenu: // League Teams
-		return m.leagueTeams.View()
+		return styles.DefaultStyle.Render(m.leagueTeams.View())
 	}
 
 	return "Oh no..."
