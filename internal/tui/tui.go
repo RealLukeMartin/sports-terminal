@@ -1,6 +1,7 @@
 package tui
 
 import (
+	"github.com/RealLukeMartin/sports-terminal/internal/data"
 	"github.com/RealLukeMartin/sports-terminal/internal/menus"
 	tea "github.com/charmbracelet/bubbletea"
 )
@@ -61,7 +62,7 @@ func (m tuiModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		case "down", "s", "j":
 			if m.currentPage == leaguesMenu {
-				if m.leaguesCursor < 3 { // TODO: Make this dynamic
+				if m.leaguesCursor < len(data.LeagueOptions)-1 {
 					m.leaguesCursor++
 				}
 			}
@@ -86,17 +87,17 @@ func (m tuiModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			cmd = newLeagueCmd
 
 		case leagueTeamsMenu:
-			// Update the mlb menu, get the new model and cmd
+			// Update the leagueTeams menu, get the new model and cmd
 			newLeagueTeamsMenu, newLeagueTeamsCmd := m.leagueTeams.Update(msg)
 
-			// Get the mlb model from the updated model
+			// Get the leagueTeams model from the updated model
 			leagueTeamsModel, ok := newLeagueTeamsMenu.(menus.LeagueTeamsModel)
 
 			if !ok {
 				panic("could not perform assertion on MlbModel")
 			}
 
-			// Update the mlb model in state
+			// Update the leagueTeams model in state
 			m.leagueTeams = leagueTeamsModel
 
 			// set the new cmd we will be returning

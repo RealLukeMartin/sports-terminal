@@ -3,6 +3,7 @@ package menus
 import (
 	"fmt"
 
+	"github.com/RealLukeMartin/sports-terminal/internal/data"
 	tea "github.com/charmbracelet/bubbletea"
 )
 
@@ -14,7 +15,7 @@ type LeaguesModel struct {
 
 func LeaguesInitialModel() LeaguesModel {
 	return LeaguesModel{
-		choices:  []string{"MLB", "NFL", "NBA", "NHL"},
+		choices:  data.LeagueOptions,
 		selected: make(map[int]struct{}),
 	}
 }
