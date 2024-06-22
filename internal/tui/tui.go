@@ -11,6 +11,7 @@ type currentPageState int
 
 const (
 	leaguesMenu currentPageState = iota
+	leagueOptionsMenu
 	leagueTeamsMenu
 )
 
@@ -18,14 +19,16 @@ type tuiModel struct {
 	currentPage   currentPageState
 	leaguesCursor int
 	leagues       tea.Model
+	leagueOptions tea.Model
 	leagueTeams   tea.Model
 }
 
 func TuiInitialModel() tuiModel {
 	return tuiModel{
-		currentPage: leaguesMenu,
-		leagues:     menus.LeaguesInitialModel(),
-		leagueTeams: menus.LeagueTeamsInitialModel(0),
+		currentPage:   leaguesMenu,
+		leagues:       menus.LeaguesInitialModel(),
+		leagueOptions: menus.LeagueOptionsInitialModel(),
+		leagueTeams:   menus.LeagueTeamsInitialModel(0),
 	}
 }
 
@@ -45,10 +48,18 @@ func (m tuiModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, tea.Quit
 
 		case "enter", " ":
-			if m.currentPage == leaguesMenu {
-				m.leagueTeams = menus.LeagueTeamsInitialModel(m.leaguesCursor)
+			if m.currentPage == leagueOptionsMenu {
 				m.currentPage = leagueTeamsMenu
 			}
+
+			if m.currentPage == leaguesMenu {
+				// Set the league teams model to the selected league
+				m.leagueTeams = menus.LeagueTeamsInitialModel(m.leaguesCursor)
+
+				// Set the current page to the league options menu
+				m.currentPage = leagueOptionsMenu
+			}
+
 		case "esc":
 			if m.currentPage == leagueTeamsMenu {
 				m.currentPage = leaguesMenu
@@ -71,38 +82,13 @@ func (m tuiModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		switch m.currentPage {
 		case leaguesMenu:
-			// Update the leagues menu
-			newLeagueMenu, newLeagueCmd := m.leagues.Update(msg)
+			cmd = m.leagueMenuCmd(msg)
 
-			// Get the league model from the updated model
-			leaguesModel, ok := newLeagueMenu.(menus.LeaguesModel)
-
-			if !ok {
-				panic("could not perform assertion on LeaguesModel")
-			}
-
-			// Update the leagues model in state
-			m.leagues = leaguesModel
-
-			// set the new cmd we will be returning
-			cmd = newLeagueCmd
+		case leagueOptionsMenu:
+			cmd = m.leagueOptionsMenuCmd(msg)
 
 		case leagueTeamsMenu:
-			// Update the leagueTeams menu, get the new model and cmd
-			newLeagueTeamsMenu, newLeagueTeamsCmd := m.leagueTeams.Update(msg)
-
-			// Get the leagueTeams model from the updated model
-			leagueTeamsModel, ok := newLeagueTeamsMenu.(menus.LeagueTeamsModel)
-
-			if !ok {
-				panic("could not perform assertion on LeagueTeamsModel")
-			}
-
-			// Update the leagueTeams model in state
-			m.leagueTeams = leagueTeamsModel
-
-			// set the new cmd we will be returning
-			cmd = newLeagueTeamsCmd
+			cmd = m.leagueTeamsMenuCmd(msg)
 		}
 
 	}
@@ -116,6 +102,8 @@ func (m tuiModel) View() string {
 	switch m.currentPage {
 	case leaguesMenu: // Leagues
 		return styles.DefaultStyle.Render(m.leagues.View())
+	case leagueOptionsMenu: // League Options
+		return styles.DefaultStyle.Render(m.leagueOptions.View())
 	case leagueTeamsMenu: // League Teams
 		return styles.DefaultStyle.Render(m.leagueTeams.View())
 	}

@@ -8,6 +8,13 @@ import (
 	"golang.org/x/exp/maps"
 )
 
+// const (
+// 	mlb leagueSelection = iota
+// 	nfl
+// 	nba
+// 	nhl
+// )
+
 type LeagueTeamsModel struct {
 	teams    []string
 	cursor   int

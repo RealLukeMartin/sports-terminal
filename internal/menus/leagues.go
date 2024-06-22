@@ -15,7 +15,7 @@ type LeaguesModel struct {
 
 func LeaguesInitialModel() LeaguesModel {
 	return LeaguesModel{
-		choices:  data.LeagueOptions,
+		choices:  data.Leagues,
 		selected: make(map[int]struct{}),
 	}
 }
