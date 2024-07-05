@@ -57,6 +57,5 @@ func (m MlbBoxScoreModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m MlbBoxScoreModel) View() string {
-	//return components.MlbBoxScoreTable(m.innings, m.homeStats, m.awayStats)
 	return components.MlbBoxScoreTable(innings, homeStats, awayStats)
 }
