@@ -1,6 +1,7 @@
 package tui
 
 import (
+	"github.com/RealLukeMartin/sports-terminal/internal/boxScores"
 	"github.com/RealLukeMartin/sports-terminal/internal/data"
 	"github.com/RealLukeMartin/sports-terminal/internal/menus"
 	"github.com/RealLukeMartin/sports-terminal/internal/styles"
@@ -13,6 +14,7 @@ const (
 	leaguesMenu currentPageState = iota
 	leagueOptionsMenu
 	leagueTeamsMenu
+	boxScore
 )
 
 type tuiModel struct {
@@ -21,6 +23,7 @@ type tuiModel struct {
 	leagues       tea.Model
 	leagueOptions tea.Model
 	leagueTeams   tea.Model
+	boxScore      tea.Model
 }
 
 func TuiInitialModel() tuiModel {
@@ -29,6 +32,7 @@ func TuiInitialModel() tuiModel {
 		leagues:       menus.LeaguesInitialModel(),
 		leagueOptions: menus.LeagueOptionsInitialModel(),
 		leagueTeams:   menus.LeagueTeamsInitialModel(0),
+		boxScore:      boxScores.MlbBoxScoreInitialModel(),
 	}
 }
 
@@ -89,6 +93,9 @@ func (m tuiModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		case leagueTeamsMenu:
 			cmd = m.leagueTeamsMenuCmd(msg)
+
+		case boxScore:
+			cmd = m.boxScoreCmd(msg)
 		}
 
 	}
@@ -106,6 +113,8 @@ func (m tuiModel) View() string {
 		return styles.DefaultStyle.Render(m.leagueOptions.View())
 	case leagueTeamsMenu: // League Teams
 		return styles.DefaultStyle.Render(m.leagueTeams.View())
+	case boxScore: // Box Score
+		return m.boxScore.View()
 	}
 
 	return "Oh no..."

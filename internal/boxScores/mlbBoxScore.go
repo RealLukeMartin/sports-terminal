@@ -1,32 +1,50 @@
 package boxScores
 
-import tea "github.com/charmbracelet/bubbletea"
+import (
+	"github.com/RealLukeMartin/sports-terminal/internal/components"
+	tea "github.com/charmbracelet/bubbletea"
+)
 
-type mlbTeamsBoxScoreStats struct {
-	name   string
-	runs   int
-	hits   int
-	errors int
-}
-
-type inning struct {
-	homeScore int
-	awayScore int
-}
+type MlbTeamsBoxScoreStats = components.MlbTeamsBoxScoreStats
+type Inning = components.Inning
 
 type MlbBoxScoreModel struct {
-	homeStats   mlbTeamsBoxScoreStats
-	awayStats   mlbTeamsBoxScoreStats
-	homeInnings []inning
-	awayInnings []inning
+	homeStats MlbTeamsBoxScoreStats
+	awayStats MlbTeamsBoxScoreStats
+	innings   []Inning
 }
 
-func MlbBoxScoreInitialModel(homeStats mlbTeamsBoxScoreStats, awayStats mlbTeamsBoxScoreStats, homeInnings []inning, awayInnings []inning) MlbBoxScoreModel {
+var innings = []Inning{
+	{HomeScore: 0, AwayScore: 0},
+	{HomeScore: 0, AwayScore: 0},
+	{HomeScore: 0, AwayScore: 0},
+	{HomeScore: 0, AwayScore: 0},
+	{HomeScore: 0, AwayScore: 0},
+	{HomeScore: 0, AwayScore: 0},
+	{HomeScore: 0, AwayScore: 0},
+	{HomeScore: 0, AwayScore: 0},
+	{HomeScore: 0, AwayScore: 0},
+}
+
+var homeStats = MlbTeamsBoxScoreStats{
+	Name:   "HOU",
+	Runs:   0,
+	Hits:   0,
+	Errors: 0,
+}
+
+var awayStats = MlbTeamsBoxScoreStats{
+	Name:   "SEA",
+	Runs:   0,
+	Hits:   0,
+	Errors: 0,
+}
+
+func MlbBoxScoreInitialModel() MlbBoxScoreModel {
 	return MlbBoxScoreModel{
-		homeStats:   homeStats,
-		awayStats:   awayStats,
-		homeInnings: homeInnings,
-		awayInnings: awayInnings,
+		homeStats: homeStats,
+		awayStats: awayStats,
+		innings:   innings,
 	}
 }
 
@@ -34,10 +52,11 @@ func (m MlbBoxScoreModel) Init() tea.Cmd {
 	return nil
 }
 
-func (m MlbBoxScoreModel) Update() (tea.Msg, tea.Cmd) {
+func (m MlbBoxScoreModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m, nil
 }
 
 func (m MlbBoxScoreModel) View() string {
-	return "Box Scores Coming Soon..."
+	//return components.MlbBoxScoreTable(m.innings, m.homeStats, m.awayStats)
+	return components.MlbBoxScoreTable(innings, homeStats, awayStats)
 }
