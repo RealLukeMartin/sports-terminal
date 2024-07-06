@@ -46,7 +46,8 @@ func MlbBoxScoreTable(
 	awayRow := mlbBoxScoreRowParser(awayStats, awayInnings)
 
 	mlbBoxScoreTable := table.New().
-		Headers("Team", "1", "2", "3", "4", "5", "6", "7", "8", "9", "R", "H", "E").
+		Border(lipgloss.NormalBorder()).
+		Headers(" ", "1", "2", "3", "4", "5", "6", "7", "8", "9", "R", "H", "E").
 		Row(awayRow...).
 		Row("---").
 		Row(homeRow...).
@@ -57,8 +58,12 @@ func MlbBoxScoreTable(
 			} else {
 				baseStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#FFFFFF"))
 			}
+			// baseStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#FFFFFF"))
+			// if col == 9 {
+			// 	baseStyle = baseStyle.MarginRight(2).BorderRightBackground(lipgloss.Color("#000000"))
+			// }
 
-			return baseStyle.Width(5).Align(lipgloss.Center)
+			return baseStyle.Width(4).Align(lipgloss.Center)
 
 		})
 

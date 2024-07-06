@@ -1,1 +1,5 @@
+#os
 .DS_Store
+
+#python
+.venv/
