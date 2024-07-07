@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-func GetInProgressMlbGames() {
+func GetMlbGames() {
 	url := "https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard"
 	jsonData, err := fetchJSON(url)
 	if err != nil {

@@ -1,5 +1,5 @@
 #os
 .DS_Store
 
-#python
-.venv/
+#random
+*example.json
