@@ -14,3 +14,8 @@ func main() {
 		fmt.Println("Error starting program:", err)
 	}
 }
+
+// func main() {
+// 	scraper.GetMlbGames()
+
+// }

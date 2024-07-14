@@ -28,7 +28,7 @@ type tuiModel struct {
 
 func TuiInitialModel() tuiModel {
 	return tuiModel{
-		currentPage:   leaguesMenu,
+		currentPage:   boxScore,
 		leagues:       menus.LeaguesInitialModel(),
 		leagueOptions: menus.LeagueOptionsInitialModel(),
 		leagueTeams:   menus.LeagueTeamsInitialModel(0),
