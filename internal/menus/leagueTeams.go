@@ -87,7 +87,5 @@ func (m LeagueTeamsModel) View() string {
 		prompt += fmt.Sprintf("%s %s\n", cursor, team)
 	}
 
-	prompt += "\nPress 'Esc' to go back to leagues menu, 'q' to quit."
-
 	return prompt
 }

@@ -16,9 +16,11 @@ type MlbBoxScoreModel struct {
 }
 
 var mlbGames = scraper.GetMlbGames()
+var gameIndexRef *int
 
-func MlbBoxScoreInitialModel() MlbBoxScoreModel {
-	homeStats, awayStats, innings := processMlbTeams(mlbGames)
+func MlbBoxScoreInitialModel(gameIndex int) MlbBoxScoreModel {
+	homeStats, awayStats, innings := processMlbTeams(mlbGames, gameIndex)
+	gameIndexRef = &gameIndex
 	return MlbBoxScoreModel{
 		homeStats: homeStats,
 		awayStats: awayStats,
@@ -35,6 +37,6 @@ func (m MlbBoxScoreModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m MlbBoxScoreModel) View() string {
-	homeStats, awayStats, innings := processMlbTeams(mlbGames)
+	homeStats, awayStats, innings := processMlbTeams(mlbGames, *gameIndexRef)
 	return components.MlbBoxScoreTable(innings, homeStats, awayStats)
 }

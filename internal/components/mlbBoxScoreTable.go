@@ -20,6 +20,14 @@ type MlbTeamsBoxScoreStats struct {
 }
 
 func mlbBoxScoreRowParser(stats MlbTeamsBoxScoreStats, innings []string) []string {
+	// Add empty innings if less than 9
+	// print(len(innings))
+	inningsLength := len(innings)
+	if inningsLength < 9 {
+		for i := inningsLength; i < 9; i++ {
+			innings = append(innings, "-")
+		}
+	}
 	combinedStats := append([]string{stats.Name}, innings...)
 
 	combinedStats = append(combinedStats, stats.Runs)

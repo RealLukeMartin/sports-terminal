@@ -18,9 +18,9 @@ func getMlbTeamStats(statistics []scraper.MlbStatistic) MlbTeamsBoxScoreStats {
 	return stats
 }
 
-func processMlbTeams(mlbGames *scraper.MlbScoreboardData) (MlbTeamsBoxScoreStats, MlbTeamsBoxScoreStats, []Inning) {
-	var firstGame = mlbGames.Events[0]
-	var firstCompetition = firstGame.Competitions[0]
+func processMlbTeams(mlbGames *scraper.MlbScoreboardData, gameIndex int) (MlbTeamsBoxScoreStats, MlbTeamsBoxScoreStats, []Inning) {
+	var selectedGame = mlbGames.Events[gameIndex]
+	var firstCompetition = selectedGame.Competitions[0]
 
 	var innings = []Inning{}
 	var homeInnings = []int{}

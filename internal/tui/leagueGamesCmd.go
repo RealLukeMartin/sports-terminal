@@ -6,18 +6,18 @@ import (
 )
 
 func (m *tuiModel) leagueGamesCmd(msg tea.Msg) tea.Cmd {
-	// Update the leagues menu
-	newLeagueGamesMenu, newLeagueGamesCmd := m.leagues.Update(msg)
+	// Update the league Games menu
+	newLeagueGamesMenu, newLeagueGamesCmd := m.leagueGames.Update(msg)
 
-	// Get the league model from the updated model
-	leagueGamesModel, ok := newLeagueGamesMenu.(menus.LeaguesModel)
+	// Get the league games model from the updated model
+	leagueGamesModel, ok := newLeagueGamesMenu.(menus.LeagueGamesModel)
 
 	if !ok {
-		panic("could not perform assertion on LeaguesModel")
+		panic("could not perform assertion on LeagueGamesModel")
 	}
 
-	// Update the leagues model in state
-	m.leagues = leagueGamesModel
+	// Update the league games model in state
+	m.leagueGames = leagueGamesModel
 
 	// set the new cmd we will be returning
 	return newLeagueGamesCmd
