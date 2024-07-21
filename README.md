@@ -12,6 +12,6 @@ go run .
 ```
 
 # Demo
-![Sports Terminal Demo](docs/demo.gif "Demo")
+![Sports Terminal Demo](docs/demorealv2.gif "Demo")
 
 
