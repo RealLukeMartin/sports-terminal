@@ -20,6 +20,7 @@ type MlbTeam struct {
 type MlbScoreboardData struct {
 	Events []struct {
 		GameID       string `json:"id"`
+		Name         string `json:"name"`
 		ShortName    string `json:"shortName"`
 		Competitions []struct {
 			Id          string `json:"id"`

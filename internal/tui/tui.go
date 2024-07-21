@@ -15,6 +15,7 @@ const (
 	leagueOptionsMenu
 	leagueTeamsMenu
 	boxScore
+	leagueGames
 )
 
 type tuiModel struct {
@@ -23,15 +24,17 @@ type tuiModel struct {
 	leagues       tea.Model
 	leagueOptions tea.Model
 	leagueTeams   tea.Model
+	leagueGames   tea.Model
 	boxScore      tea.Model
 }
 
 func TuiInitialModel() tuiModel {
 	return tuiModel{
-		currentPage:   boxScore,
+		currentPage:   leagueGames,
 		leagues:       menus.LeaguesInitialModel(),
 		leagueOptions: menus.LeagueOptionsInitialModel(),
 		leagueTeams:   menus.LeagueTeamsInitialModel(0),
+		leagueGames:   menus.LeagueGamesInitialModel(),
 		boxScore:      boxScores.MlbBoxScoreInitialModel(),
 	}
 }
@@ -96,6 +99,9 @@ func (m tuiModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		case boxScore:
 			cmd = m.boxScoreCmd(msg)
+
+		case leagueGames:
+			cmd = m.leagueGamesCmd(msg)
 		}
 
 	}
@@ -115,6 +121,8 @@ func (m tuiModel) View() string {
 		return styles.DefaultStyle.Render(m.leagueTeams.View())
 	case boxScore: // Box Score
 		return m.boxScore.View()
+	case leagueGames: // League Games
+		return styles.DefaultStyle.Render(m.leagueGames.View())
 	}
 
 	return "Oh no..."
