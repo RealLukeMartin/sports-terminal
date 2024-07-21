@@ -14,17 +14,25 @@ type Inning struct {
 
 type MlbTeamsBoxScoreStats struct {
 	Name   string
-	Runs   int
-	Hits   int
-	Errors int
+	Runs   string
+	Hits   string
+	Errors string
 }
 
 func mlbBoxScoreRowParser(stats MlbTeamsBoxScoreStats, innings []string) []string {
+	// Add empty innings if less than 9
+	// print(len(innings))
+	inningsLength := len(innings)
+	if inningsLength < 9 {
+		for i := inningsLength; i < 9; i++ {
+			innings = append(innings, "-")
+		}
+	}
 	combinedStats := append([]string{stats.Name}, innings...)
 
-	combinedStats = append(combinedStats, strconv.Itoa(stats.Runs))
-	combinedStats = append(combinedStats, strconv.Itoa(stats.Hits))
-	combinedStats = append(combinedStats, strconv.Itoa(stats.Errors))
+	combinedStats = append(combinedStats, stats.Runs)
+	combinedStats = append(combinedStats, stats.Hits)
+	combinedStats = append(combinedStats, stats.Errors)
 
 	return combinedStats
 }

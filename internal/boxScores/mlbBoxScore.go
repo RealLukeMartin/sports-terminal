@@ -2,6 +2,7 @@ package boxScores
 
 import (
 	"github.com/RealLukeMartin/sports-terminal/internal/components"
+	"github.com/RealLukeMartin/sports-terminal/scraper"
 	tea "github.com/charmbracelet/bubbletea"
 )
 
@@ -14,33 +15,12 @@ type MlbBoxScoreModel struct {
 	innings   []Inning
 }
 
-var innings = []Inning{
-	{HomeScore: 0, AwayScore: 0},
-	{HomeScore: 0, AwayScore: 0},
-	{HomeScore: 0, AwayScore: 0},
-	{HomeScore: 0, AwayScore: 0},
-	{HomeScore: 0, AwayScore: 0},
-	{HomeScore: 0, AwayScore: 0},
-	{HomeScore: 0, AwayScore: 0},
-	{HomeScore: 0, AwayScore: 0},
-	{HomeScore: 0, AwayScore: 0},
-}
+var mlbGames = scraper.GetMlbGames()
+var gameIndexRef *int
 
-var homeStats = MlbTeamsBoxScoreStats{
-	Name:   "HOU",
-	Runs:   0,
-	Hits:   0,
-	Errors: 0,
-}
-
-var awayStats = MlbTeamsBoxScoreStats{
-	Name:   "SEA",
-	Runs:   0,
-	Hits:   0,
-	Errors: 0,
-}
-
-func MlbBoxScoreInitialModel() MlbBoxScoreModel {
+func MlbBoxScoreInitialModel(gameIndex int) MlbBoxScoreModel {
+	homeStats, awayStats, innings := processMlbTeams(mlbGames, gameIndex)
+	gameIndexRef = &gameIndex
 	return MlbBoxScoreModel{
 		homeStats: homeStats,
 		awayStats: awayStats,
@@ -57,5 +37,6 @@ func (m MlbBoxScoreModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m MlbBoxScoreModel) View() string {
+	homeStats, awayStats, innings := processMlbTeams(mlbGames, *gameIndexRef)
 	return components.MlbBoxScoreTable(innings, homeStats, awayStats)
 }

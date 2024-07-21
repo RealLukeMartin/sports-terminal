@@ -4,13 +4,23 @@ import (
 	"encoding/json"
 )
 
-type TypeData struct {
-	Type string `json:"type"`
+type MlbStatistic struct {
+	Name         string `json:"name"`
+	Abbreviation string `json:"abbreviation"`
+	DisplayValue string `json:"displayValue"`
+}
+
+type MlbTeam struct {
+	Id           string `json:"id"`
+	Abbreviation string `json:"abbreviation"`
+	Location     string `json:"location"`
+	Name         string `json:"name"`
 }
 
 type MlbScoreboardData struct {
 	Events []struct {
 		GameID       string `json:"id"`
+		Name         string `json:"name"`
 		ShortName    string `json:"shortName"`
 		Competitions []struct {
 			Id          string `json:"id"`
@@ -22,15 +32,8 @@ type MlbScoreboardData struct {
 				Linescores []struct {
 					Value float32 `json:"value"`
 				} `json:"linescores,omitempty"`
-				Statistics []struct {
-					Name         string `json:"name"`
-					DisplayValue string `json:"displayValue"`
-				} `json:"statistics,omitempty"`
-				Team struct {
-					Id       string `json:"id"`
-					Location string `json:"location"`
-					Name     string `json:"name"`
-				} `json:"team"`
+				Statistics []MlbStatistic `json:"statistics,omitempty"`
+				Team       MlbTeam        `json:"team"`
 			} `json:"competitors"`
 		} `json:"competitions"`
 		Status struct {
@@ -43,7 +46,7 @@ type MlbScoreboardData struct {
 	} `json:"events"`
 }
 
-func parseJSON(data []byte) (*MlbScoreboardData, error) {
+func parseMlbJSON(data []byte) (*MlbScoreboardData, error) {
 	var scoreboard MlbScoreboardData
 	err := json.Unmarshal(data, &scoreboard)
 	if err != nil {
